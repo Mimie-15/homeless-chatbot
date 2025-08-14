@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Homeless AI Chatbot</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    #chat { white-space: pre-line; border: 1px solid #ccc; padding: 1rem; min-height: 200px; }
+    input, button { padding: 0.5rem; font-size: 1rem; }
+    #input { width: 80%; }
+  </style>
+</head>
+<body>
+  <h2>🤖 Homeless AI Chatbot</h2>
+  <div id="chat">🖐 สวัสดีค่ะ ฉันคือ AI Chatbot สำหรับให้ความรู้เรื่องคนไร้บ้านในไทย</div>
+  <br />
+  <input type="text" id="input" placeholder="พิมพ์คำถามเกี่ยวกับคนไร้บ้าน..." />
+  <button onclick="sendMessage()">ส่ง</button>
+
+  <script>
+    const API_KEY = "AIzaSyDirJU3NluC9wfEW0EcpqwZceniB2VuiXU";
+    const chatEl = document.getElementById('chat');
+    const inputEl = document.getElementById('input');
+
+    async function sendMessage() {
+      const userText = inputEl.value;
+      if (!userText) return;
+      chatEl.innerHTML += `\n🙋‍♀️ ${userText}`;
+      inputEl.value = "";
+
+      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${API_KEY}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: userText }] }]
+        })
+      });
+
+      const data = await res.json();
+      const botReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "❌ ขอโทษค่ะ เกิดข้อผิดพลาด";
+      chatEl.innerHTML += `\n🤖 ${botReply}`;
+    }
+  </script>
+</body>
+</html>
