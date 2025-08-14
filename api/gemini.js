@@ -1,5 +1,5 @@
 <script>
-  const GEMINI_API_KEY = "AIzaSyDirJU3NluC9wfEW0EcpqwZceniB2VuiXU";
+  const GEMINI_API_KEY = "AIzaSyAowYeljkYcnn7yvr_6WPg5P73cd_M3ylM";
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`;
 
   async function sendMessage(message) {
